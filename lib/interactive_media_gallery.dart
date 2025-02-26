@@ -28,6 +28,7 @@ class InteractiveMediaGallery<T> extends StatefulWidget {
     this.maxScale = 2.5,
     this.minScale = 1.0,
     this.onPageChanged,
+    this.backgroundColor,
     super.key,
   });
 
@@ -51,6 +52,9 @@ class InteractiveMediaGallery<T> extends StatefulWidget {
 
   /// Optional page controller
   final PageController? pageController;
+
+  /// The background color of the gallery
+  final Color? backgroundColor;
 
   @override
   State<InteractiveMediaGallery<T>> createState() =>
@@ -183,27 +187,30 @@ class _InteractiveMediaGalleryState<T> extends State<InteractiveMediaGallery<T>>
         currentIndexNotifier,
       ]),
       builder: (context, _) {
-        return InteractiveViewerBoundary(
-          key: widget.key,
-          controller: _transformationController,
-          boundaryWidth: MediaQuery.of(context).size.width,
-          onScaleChanged: _onScaleChanged,
-          onLeftBoundaryHit: _onLeftBoundaryHit,
-          onRightBoundaryHit: _onRightBoundaryHit,
-          onNoBoundaryHit: _onNoBoundaryHit,
-          maxScale: widget.maxScale,
-          minScale: widget.minScale,
-          child: CustomDismissible(
-            onDismissed: () => Navigator.of(context).pop(),
-            enabled: _enableDismissNotifier.value,
-            child: PageView.builder(
-              onPageChanged: _onPageChanged,
-              controller: _pageController,
-              physics: _enablePageViewNotifier.value
-                  ? null
-                  : const NeverScrollableScrollPhysics(),
-              itemCount: widget.sources.length,
-              itemBuilder: _buildPageItem,
+        return ColoredBox(
+          color: widget.backgroundColor ?? Colors.transparent,
+          child: InteractiveViewerBoundary(
+            key: widget.key,
+            controller: _transformationController,
+            boundaryWidth: MediaQuery.of(context).size.width,
+            onScaleChanged: _onScaleChanged,
+            onLeftBoundaryHit: _onLeftBoundaryHit,
+            onRightBoundaryHit: _onRightBoundaryHit,
+            onNoBoundaryHit: _onNoBoundaryHit,
+            maxScale: widget.maxScale,
+            minScale: widget.minScale,
+            child: CustomDismissible(
+              onDismissed: () => Navigator.of(context).pop(),
+              enabled: _enableDismissNotifier.value,
+              child: PageView.builder(
+                onPageChanged: _onPageChanged,
+                controller: _pageController,
+                physics: _enablePageViewNotifier.value
+                    ? null
+                    : const NeverScrollableScrollPhysics(),
+                itemCount: widget.sources.length,
+                itemBuilder: _buildPageItem,
+              ),
             ),
           ),
         );
