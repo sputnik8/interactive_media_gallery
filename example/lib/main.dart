@@ -11,6 +11,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,12 +37,13 @@ class DemoSourceEntity {
 class InteractiveviewDemoPage extends StatefulWidget {
   static final String sName = "/";
 
+  const InteractiveviewDemoPage({super.key});
+
   @override
-  _InteractiveviewDemoPageState createState() =>
-      _InteractiveviewDemoPageState();
+  InteractiveviewDemoPageState createState() => InteractiveviewDemoPageState();
 }
 
-class _InteractiveviewDemoPageState extends State<InteractiveviewDemoPage> {
+class InteractiveviewDemoPageState extends State<InteractiveviewDemoPage> {
   List<DemoSourceEntity> sourceList = [
     DemoSourceEntity(0, 'image', 'http://file.jinxianyun.com/inter_06.jpg'),
     DemoSourceEntity(1, 'image', 'http://file.jinxianyun.com/inter_05.jpg'),
@@ -110,7 +113,7 @@ class _InteractiveviewDemoPageState extends State<InteractiveviewDemoPage> {
             initIndex: sourceList.indexOf(source),
             itemBuilder: itemBuilder,
             onPageChanged: (int pageIndex) {
-              print("nell-pageIndex:$pageIndex");
+              debugPrint("nell-pageIndex:$pageIndex");
             },
           ),
         ),
@@ -134,23 +137,23 @@ class _InteractiveviewDemoPageState extends State<InteractiveviewDemoPage> {
 class DemoImageItem extends StatefulWidget {
   final DemoSourceEntity source;
 
-  DemoImageItem(this.source);
+  const DemoImageItem(this.source, {super.key});
 
   @override
-  _DemoImageItemState createState() => _DemoImageItemState();
+  DemoImageItemState createState() => DemoImageItemState();
 }
 
-class _DemoImageItemState extends State<DemoImageItem> {
+class DemoImageItemState extends State<DemoImageItem> {
   @override
   void initState() {
     super.initState();
-    print('initState: ${widget.source.id}');
+    debugPrint('initState: ${widget.source.id}');
   }
 
   @override
   void dispose() {
     super.dispose();
-    print('dispose: ${widget.source.id}');
+    debugPrint('dispose: ${widget.source.id}');
   }
 
   @override
@@ -175,18 +178,18 @@ class DemoVideoItem extends StatefulWidget {
   final DemoSourceEntity source;
   final bool? isFocus;
 
-  DemoVideoItem(this.source, {this.isFocus});
+  const DemoVideoItem(this.source, {super.key, this.isFocus});
 
   @override
-  _DemoVideoItemState createState() => _DemoVideoItemState();
+  DemoVideoItemState createState() => DemoVideoItemState();
 }
 
-class _DemoVideoItemState extends State<DemoVideoItem> {
+class DemoVideoItemState extends State<DemoVideoItem> {
   VideoPlayerController? _controller;
   late VoidCallback listener;
   String? localFileName;
 
-  _DemoVideoItemState() {
+  DemoVideoItemState() {
     listener = () {
       if (!mounted) {
         return;
@@ -198,7 +201,7 @@ class _DemoVideoItemState extends State<DemoVideoItem> {
   @override
   void initState() {
     super.initState();
-    print('initState: ${widget.source.id}');
+    debugPrint('initState: ${widget.source.id}');
     init();
   }
 
@@ -215,7 +218,7 @@ class _DemoVideoItemState extends State<DemoVideoItem> {
   @override
   void dispose() {
     super.dispose();
-    print('dispose: ${widget.source.id}');
+    debugPrint('dispose: ${widget.source.id}');
     _controller!.removeListener(listener);
     _controller?.pause();
     _controller?.dispose();

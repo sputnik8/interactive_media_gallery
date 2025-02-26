@@ -1,4 +1,4 @@
-library interactive_media_gallery;
+library;
 
 import 'package:flutter/material.dart';
 import './custom_dismissible.dart';
@@ -184,6 +184,7 @@ class _InteractiveMediaGalleryState<T> extends State<InteractiveMediaGallery<T>>
       ]),
       builder: (context, _) {
         return InteractiveViewerBoundary(
+          key: widget.key,
           controller: _transformationController,
           boundaryWidth: MediaQuery.of(context).size.width,
           onScaleChanged: _onScaleChanged,

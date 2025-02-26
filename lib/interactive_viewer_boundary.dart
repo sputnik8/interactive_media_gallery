@@ -11,6 +11,7 @@ typedef ScaleChanged = void Function(double scale);
 /// [InteractiveViewer.onInteractionEnd] callback.
 class InteractiveViewerBoundary extends StatefulWidget {
   const InteractiveViewerBoundary({
+    super.key,
     required this.child,
     required this.boundaryWidth,
     this.controller,
@@ -74,7 +75,6 @@ class InteractiveViewerBoundaryState extends State<InteractiveViewerBoundary> {
   }
 
   void _updateBoundaryDetection() {
-
     final double scale = _controller!.value.row0[0];
 
     if (_scale != scale) {

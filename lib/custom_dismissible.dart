@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 /// Similar to [Dismissible] with some adjustments.
 class CustomDismissible extends StatefulWidget {
   const CustomDismissible({
+    super.key,
     required this.child,
     this.onDismissed,
     this.dismissThreshold = 0.2,
@@ -17,10 +18,10 @@ class CustomDismissible extends StatefulWidget {
   final bool enabled;
 
   @override
-  _CustomDismissibleState createState() => _CustomDismissibleState();
+  CustomDismissibleState createState() => CustomDismissibleState();
 }
 
-class _CustomDismissibleState extends State<CustomDismissible>
+class CustomDismissibleState extends State<CustomDismissible>
     with SingleTickerProviderStateMixin {
   late AnimationController _animateController;
   late Animation<Offset> _moveAnimation;

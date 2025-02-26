@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class DisplayGesture extends StatefulWidget {
   final Widget? child;
 
-  DisplayGesture({this.child});
+  const DisplayGesture({super.key, this.child});
 
   @override
-  _DisplayGestureState createState() => _DisplayGestureState();
+  DisplayGestureState createState() => DisplayGestureState();
 }
 
-class _DisplayGestureState extends State<DisplayGesture> {
+class DisplayGestureState extends State<DisplayGesture> {
   List<PointerEvent> displayModelList = [];
 
   @override
@@ -49,9 +49,8 @@ class _DisplayGestureState extends State<DisplayGesture> {
                 height: 60,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Color(0x99ffffff),
-                  borderRadius: BorderRadius.all(Radius.circular(30))
-                ),
+                    color: Color(0x99ffffff),
+                    borderRadius: BorderRadius.all(Radius.circular(30))),
                 child: Icon(
                   Icons.adjust,
                   size: 40,
@@ -59,7 +58,7 @@ class _DisplayGestureState extends State<DisplayGesture> {
                 ),
               ),
             );
-          }).toList()
+          }),
         ],
       ),
     );
