@@ -1,49 +1,97 @@
-# interactive_media__gallery
+# Interactive Media Gallery
 
-[中文文档](./README_CH.md)
+A powerful Flutter library for displaying interactive image and video galleries with smooth transitions and rich gesture support.
 
-A flutter library to show picture and video preview gallery
-support
-1. two-finger gesture zoom
-2. double-click to zoom
-3. switch left and right
-4. gesture back: scale, transfer, opacity of background
-5. video auto paused when miss focus
+## Features
 
-## Setup
+- 🖼️ Seamless image and video preview gallery
+- 🔍 Interactive zoom with two-finger gestures
+- 👆 Double-tap to zoom in/out
+- 🔄 Smooth horizontal navigation between media items
+- ↩️ Intuitive gesture-based dismissal with scale, translation, and background opacity effects
+- ⏯️ Automatic video pausing when not in focus
+- ✨ Hero animations for elegant transitions
 
-because the library is base on InteractiveViewer so require flutter verion above or equal 1.20.0
-```dart
-interactiveviewer_gallery: ${last_version}
+
+
+## Installation
+
+Add this to your package's `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  interactive_media_gallery: ^1.0.0
+```
+****
+Then run:
+
+```bash
+flutter pub get
 ```
 
-## How to use
+## Usage
 
-1. Wrap Hero in your image gridview item:
+### Basic Implementation
+
+1. Wrap your grid items with `Hero` widgets for smooth transitions:
+
 ```dart
 Hero(
-    tag: source.url,
-    child: ${gridview item}
+  tag: source.url, // Unique identifier for the Hero animation
+  child: YourGridViewItem(),
 )
- ```
+```
 
-2. gridview item's GestureDetector add jumping to interactiveviewer_gallery:
+2. Create a gallery view with your data model:
+
 ```dart
-// DemoSourceEntity is your data model
-// itemBuilder is gallery page item
-void _openGallery(DemoSourceEntity source) {
+void openGallery(YourDataModel source) {
   Navigator.of(context).push(
     HeroDialogRoute<void>(
-      // DisplayGesture is just debug, please remove it when use
-      builder: (BuildContext context) => InteractiveviewerGallery<DemoSourceEntity>(
-          sources: sourceList,
-          initIndex: sourceList.indexOf(source),
-          itemBuilder: itemBuilder,
-          onPageChanged: (int pageIndex) {
-            print("nell-pageIndex:$pageIndex");
-          },
+      builder: (BuildContext context) => InteractiveMediaGallery<YourDataModel>(
+        sources: sourceList,
+        initIndex: sourceList.indexOf(source),
+        itemBuilder: (context, index, isFocused) {
+          // Build your gallery item based on your data model
+          return YourGalleryItemWidget(
+            source: sourceList[index],
+            isFocused: isFocused,
+          );
+        },
+        onPageChanged: (int pageIndex) {
+          // Handle page change events
+          print("Current page: $pageIndex");
+        },
       ),
     ),
   );
 }
 ```
+
+### Advanced Configuration
+
+The `InteractiveMediaGallery` widget supports several customization options:
+
+```dart
+InteractiveMediaGallery<YourDataModel>(
+  sources: sourceList,
+  initIndex: initialIndex,
+  itemBuilder: itemBuilder,
+  maxScale: 3.0,           // Maximum zoom scale (default: 2.5)
+  minScale: 0.8,           // Minimum zoom scale (default: 1.0)
+  pageController: customPageController,  // Optional custom page controller
+  onPageChanged: onPageChangedCallback,
+)
+```
+
+## Example
+
+Check out the [example project](https://github.com/yourusername/interactive_media_gallery/tree/main/example) for a complete implementation.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
