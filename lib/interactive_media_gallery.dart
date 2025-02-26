@@ -202,6 +202,7 @@ class _InteractiveMediaGalleryState<T> extends State<InteractiveMediaGallery<T>>
             child: CustomDismissible(
               onDismissed: () => Navigator.of(context).pop(),
               enabled: _enableDismissNotifier.value,
+              backgroundColor: widget.backgroundColor ?? Colors.black,
               child: PageView.builder(
                 onPageChanged: _onPageChanged,
                 controller: _pageController,

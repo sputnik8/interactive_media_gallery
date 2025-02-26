@@ -10,12 +10,14 @@ class CustomDismissible extends StatefulWidget {
     this.onDismissed,
     this.dismissThreshold = 0.2,
     this.enabled = true,
+    this.backgroundColor = const Color(0xFF000000),
   });
 
   final Widget child;
   final double dismissThreshold;
   final VoidCallback? onDismissed;
   final bool enabled;
+  final Color backgroundColor;
 
   @override
   CustomDismissibleState createState() => CustomDismissibleState();
@@ -69,10 +71,10 @@ class CustomDismissibleState extends State<CustomDismissible>
 
     _opacityAnimation = DecorationTween(
       begin: BoxDecoration(
-        color: const Color(0xFF000000),
+        color: widget.backgroundColor,
       ),
       end: BoxDecoration(
-        color: const Color(0x00000000),
+        color: widget.backgroundColor.withValues(alpha: 0),
       ),
     ).animate(_animateController);
   }
