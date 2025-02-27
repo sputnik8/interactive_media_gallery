@@ -69,7 +69,10 @@ class InteractiveViewerBoundaryState extends State<InteractiveViewerBoundary> {
 
   @override
   void dispose() {
-    _controller!.dispose();
+    // Only dispose the controller if we created it internally
+    if (widget.controller == null) {
+      _controller?.dispose();
+    }
 
     super.dispose();
   }
