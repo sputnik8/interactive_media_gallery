@@ -112,8 +112,8 @@ class _InteractiveMediaGalleryState<T> extends State<InteractiveMediaGallery<T>>
   @override
   void dispose() {
     _pageController.dispose();
-    _transformationController.dispose();
     _animationController.dispose();
+    _transformationController.dispose();
     _enablePageViewNotifier.dispose();
     _enableDismissNotifier.dispose();
     currentIndexNotifier.dispose();
