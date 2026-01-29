@@ -205,7 +205,7 @@ class DemoVideoItemState extends State<DemoVideoItem> {
     init();
   }
 
-  init() async {
+  Future<void> init() async {
     _controller =
         VideoPlayerController.networkUrl(Uri.parse(widget.source.url));
     // loop play
