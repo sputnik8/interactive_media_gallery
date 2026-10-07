@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A callback for the [InteractiveViewerBoundary] that is called when the scale
 /// changed.

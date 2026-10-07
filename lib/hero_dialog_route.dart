@@ -1,14 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A [PageRoute] with a semi transparent background.
 ///
 /// Similar to calling [showDialog] except it can be used with a [Navigator] to
 /// show a [Hero] animation.
 class HeroDialogRoute<T> extends PageRoute<T> {
-  HeroDialogRoute({
-    required this.builder,
-    this.onBackgroundTap,
-  }) : super();
+  HeroDialogRoute({required this.builder, this.onBackgroundTap}) : super();
 
   final WidgetBuilder builder;
 
