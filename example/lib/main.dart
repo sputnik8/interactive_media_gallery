@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:example/display_gesture_widget.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:interactive_media_gallery/hero_dialog_route.dart';
 import 'package:interactive_media_gallery/interactive_media_gallery.dart';
 import 'package:video_player/video_player.dart';

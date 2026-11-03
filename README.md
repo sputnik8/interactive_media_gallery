@@ -20,14 +20,30 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  interactive_media_gallery: ^1.0.0
+  interactive_media_gallery:
+    git:
+      url: https://github.com/sputnik8/interactive_media_gallery.git
+      ref: release/1.2.0+3
 ```
-****
 Then run:
 
 ```bash
 flutter pub get
 ```
+
+## SDK and UI dependencies
+
+Development uses Flutter 3.47.9 (Dart 3.13.7), pinned in `.fvmrc`.
+The package requires Flutter 3.47+ and Dart 3.13+.
+The library imports only `package:flutter/widgets.dart`; it does not depend on Material or Cupertino.
+The example app uses `material_ui` and `cupertino_ui`.
+
+## Controller ownership
+
+The gallery owns and disposes controllers it creates internally. When passing a
+`PageController`, the caller must dispose it after the gallery is removed.
+`InteractiveViewerBoundary` follows the same rule for a supplied
+`TransformationController`. Both widgets support replacing external controllers.
 
 ## Usage
 
@@ -86,7 +102,7 @@ InteractiveMediaGallery<YourDataModel>(
 
 ## Example
 
-Check out the [example project](https://github.com/yourusername/interactive_media_gallery/tree/main/example) for a complete implementation.
+Check out the [example project](https://github.com/sputnik8/interactive_media_gallery/tree/release/1.2.0%2B3/example) for a complete implementation.
 
 ## Contributing
 

@@ -75,3 +75,5 @@ build/
 
 # FVM Version Cache
 .fvm/
+# Generated Flutter native integration files
+example/ios/Flutter/ephemeral/

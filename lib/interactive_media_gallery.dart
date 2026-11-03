@@ -1,6 +1,6 @@
 library;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import './custom_dismissible.dart';
 import './interactive_viewer_boundary.dart';
 
@@ -14,8 +14,8 @@ import './interactive_viewer_boundary.dart';
 /// source is hit after zooming in to disable or enable the swiping gesture of
 /// the [PageView].
 ///
-typedef IndexedFocusedWidgetBuilder = Widget Function(
-    BuildContext context, int index, bool isFocus);
+typedef IndexedFocusedWidgetBuilder =
+    Widget Function(BuildContext context, int index, bool isFocus);
 
 typedef IndexedTagStringBuilder = String Function(int index);
 
@@ -91,22 +91,35 @@ class _InteractiveMediaGalleryState<T> extends State<InteractiveMediaGallery<T>>
 
     _transformationController = TransformationController();
 
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    )
-      ..addListener(() {
-        _transformationController.value =
-            _animation?.value ?? Matrix4.identity();
-      })
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed &&
-            !_enableDismissNotifier.value) {
-          _enableDismissNotifier.value = true;
-        }
-      });
+    _animationController =
+        AnimationController(
+            vsync: this,
+            duration: const Duration(milliseconds: 300),
+          )
+          ..addListener(() {
+            _transformationController.value =
+                _animation?.value ?? Matrix4.identity();
+          })
+          ..addStatusListener((AnimationStatus status) {
+            if (status == AnimationStatus.completed &&
+                !_enableDismissNotifier.value) {
+              _enableDismissNotifier.value = true;
+            }
+          });
 
     currentIndexNotifier.value = widget.initIndex;
+  }
+
+  @override
+  void didUpdateWidget(covariant InteractiveMediaGallery<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.pageController != widget.pageController) {
+      if (oldWidget.pageController == null) _pageController.dispose();
+      _pageController =
+          widget.pageController ??
+          PageController(initialPage: currentIndexNotifier.value);
+    }
   }
 
   @override
@@ -117,7 +130,7 @@ class _InteractiveMediaGalleryState<T> extends State<InteractiveMediaGallery<T>>
 
     _animationController.dispose();
     _transformationController.dispose();
-    _pageController.dispose();
+    if (widget.pageController == null) _pageController.dispose();
 
     super.dispose();
   }
@@ -168,12 +181,13 @@ class _InteractiveMediaGalleryState<T> extends State<InteractiveMediaGallery<T>>
 
     if (_transformationController.value != Matrix4.identity()) {
       // animate the reset for the transformation of the interactive viewer
-      _animation = Matrix4Tween(
-        begin: _transformationController.value,
-        end: Matrix4.identity(),
-      ).animate(
-        CurveTween(curve: Curves.easeOut).animate(_animationController),
-      );
+      _animation =
+          Matrix4Tween(
+            begin: _transformationController.value,
+            end: Matrix4.identity(),
+          ).animate(
+            CurveTween(curve: Curves.easeOut).animate(_animationController),
+          );
 
       _animationController.forward(from: 0);
     }
@@ -189,9 +203,8 @@ class _InteractiveMediaGalleryState<T> extends State<InteractiveMediaGallery<T>>
       ]),
       builder: (context, _) {
         return ColoredBox(
-          color: widget.backgroundColor ?? Colors.transparent,
+          color: widget.backgroundColor ?? const Color(0x00000000),
           child: InteractiveViewerBoundary(
-            key: widget.key,
             controller: _transformationController,
             boundaryWidth: MediaQuery.of(context).size.width,
             onScaleChanged: _onScaleChanged,
@@ -203,7 +216,8 @@ class _InteractiveMediaGalleryState<T> extends State<InteractiveMediaGallery<T>>
             child: CustomDismissible(
               onDismissed: () => Navigator.of(context).pop(),
               enabled: _enableDismissNotifier.value,
-              backgroundColor: widget.backgroundColor ?? Colors.black,
+              backgroundColor:
+                  widget.backgroundColor ?? const Color(0xFF000000),
               child: PageView.builder(
                 onPageChanged: _onPageChanged,
                 controller: _pageController,
@@ -265,15 +279,13 @@ class _InteractiveMediaGalleryState<T> extends State<InteractiveMediaGallery<T>>
       offSetX,
       offSetY,
       matrix.row2.w,
-      matrix.row3.w
+      matrix.row3.w,
     ]);
 
     _animation = Matrix4Tween(
       begin: _transformationController.value,
       end: newMatrix,
-    ).animate(
-      CurveTween(curve: Curves.easeOut).animate(_animationController),
-    );
+    ).animate(CurveTween(curve: Curves.easeOut).animate(_animationController));
 
     _animationController
         .forward(from: 0)

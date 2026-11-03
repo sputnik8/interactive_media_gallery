@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// A callback for the [InteractiveViewerBoundary] that is called when the scale
 /// changed.
@@ -19,8 +19,8 @@ class InteractiveViewerBoundary extends StatefulWidget {
     this.onLeftBoundaryHit,
     this.onRightBoundaryHit,
     this.onNoBoundaryHit,
-    this.maxScale,
-    this.minScale,
+    this.maxScale = 2.5,
+    this.minScale = 1,
   });
 
   final Widget child;
@@ -46,9 +46,9 @@ class InteractiveViewerBoundary extends StatefulWidget {
   /// Called when no boundary has been hit after an interaction ended.
   final VoidCallback? onNoBoundaryHit;
 
-  final double? maxScale;
+  final double maxScale;
 
-  final double? minScale;
+  final double minScale;
 
   @override
   InteractiveViewerBoundaryState createState() =>
@@ -65,6 +65,17 @@ class InteractiveViewerBoundaryState extends State<InteractiveViewerBoundary> {
     super.initState();
 
     _controller = widget.controller ?? TransformationController();
+  }
+
+  @override
+  void didUpdateWidget(covariant InteractiveViewerBoundary oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.controller != widget.controller) {
+      if (oldWidget.controller == null) _controller?.dispose();
+      _controller = widget.controller ?? TransformationController();
+      _scale = null;
+    }
   }
 
   @override
@@ -86,7 +97,7 @@ class InteractiveViewerBoundaryState extends State<InteractiveViewerBoundary> {
       widget.onScaleChanged?.call(scale);
     }
 
-    if (scale <= 1.01) {
+    if (scale <= widget.minScale + 0.01) {
       // cant hit any boundaries when the child is not scaled
       return;
     }
@@ -110,8 +121,8 @@ class InteractiveViewerBoundaryState extends State<InteractiveViewerBoundary> {
   @override
   Widget build(BuildContext context) {
     return InteractiveViewer(
-      maxScale: widget.maxScale!,
-      minScale: widget.minScale!,
+      maxScale: widget.maxScale,
+      minScale: widget.minScale,
       transformationController: _controller,
       onInteractionEnd: (_) => _updateBoundaryDetection(),
       child: widget.child,

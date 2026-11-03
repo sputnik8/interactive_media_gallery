@@ -1,3 +1,11 @@
+## 1.2.0+3 - 2026-11-03
+
+- Support Flutter 3.47 / Dart 3.13; pin development SDK to Flutter 3.47.9.
+- Use only Flutter widgets in the library; migrate the example to material_ui and cupertino_ui.
+- Preserve caller ownership of page controllers and support controller replacement.
+- Give InteractiveViewerBoundary usable default zoom limits and support controller replacement.
+- Detect unzoomed boundaries relative to the configured minimum scale.
+
 #
 
 ## 0.6.0 - 25.06.2021
